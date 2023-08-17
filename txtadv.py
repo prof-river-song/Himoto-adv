@@ -4,24 +4,34 @@
 setup = """Welcome to Himoto: Choose Your Own Adventure!
 In the land of Himoto, there are three types of people: humans, dragons, and gryphons.
 Among the humans, the dragons and gryphons are known as 'tenshi' and are considered the messengers of the gods. They're revered and feared because of their role in punishing humanity for crimes against each other and against the divine. A special kind of human, who takes the role of priest, has the strength to stand up to the tenshi, and use their power to protect the innocent from harm. Their power is costly and limited: it drains away their life when it's active, and can only be used once every 24 hours. However, it gives them strength, stamina, resilience, and senses far beyond that of a normal human being. Enough to stand up to the tenshi when it counts.
-Dragons and gryphons have a different way of communicating from humans: they mostly speak telepathically, with verbal sounds conveying only tone. Because of this, humans can't understand the tenshi, and the 'tenshi' believe that humans are relatively smart and accomplished animals, but non-sentient nevertheless because they can't imagine a language that's entirely verbal.
+Tenshi have a different way of communicating from humans: they mostly speak telepathically, with verbal sounds conveying only tone. Because of this, humans can't understand the tenshi, and the 'tenshi' believe that humans are relatively smart and accomplished animals, but non-sentient nevertheless because they can't imagine a language that's entirely verbal.
 Dragons have many different types, but the ones that live on land in Himoto are fire dragons, with special glands that create venom in the throat. When the venom is expelled, contact with open air ignites it, making them breathe fire that's similar to napalm. Dragons are about the size of elephants, capable of powered flight, and have functioning thumbs with retractable, cat-like claws on their fingertips. 
 Gryphons have an affinity for nature, and so are capable of more efficiently working with natural elements, like stone and wood. As such, they make excellent miners, and they 'build' homes by coaxing trees to grow in specific ways, such as very large, hollow trunks big enough to live inside of, or by weaving their branches together to create nests above the ground. Gryphons can be any mix of raptor and feline, are around the size of horses, and capable of powered flight.
 """
-priest_starter = "You live at Sakuraji. Your home has recently been attacked by dragons and is still recovering. Someone saw a dragon go down in the woods to the southeast. You're tasked with investigating. On horseback, it doesn't take long to reach the general area. There, you dismount to explore on foot so as to go unnoticed."
-dragon_starter = "You're flying with your friends. The elders have all told you about how dangerous human settlements are, but you're all young and none of you really believe it. So, when you spot one nearby, you decide to have a little fun. It's too easy! You don't have to get too close because of your auto-igniting venom, and the town begins to burn. None of the weapons the humans have reach high enough or move fast enough to hit any of you. On your way home, while your friends are laughing, you spot something down below. No one notices you dip below them, so you're left behind."
-gryphon_starter = "You're out hunting on your own. It's your first time: food is becoming scarce, so hunting parties have been split up into individuals, even those that aren't quite experienced enough, to cover more ground. You spot a huge stag and dive in for the kill, but you're spotted! The stag turns and gores you in the shoulder before bounding away."
-#race = {"dragon", "priest", "gryphon"}
+player = None
+class Dragon:
+     starter = "You're flying with your friends. The elders have all told you about how dangerous human settlements are, but you're all young and none of you really believe it. So, when you spot one nearby, you decide to have a little fun. It's too easy! You don't have to get too close because of your auto-igniting venom, and the town begins to burn. None of the weapons the humans have reach high enough or move fast enough to hit any of you. On your way home, while your friends are laughing, you spot something down below. No one notices you dip below them, so you're left behind."
+     part2 = "You don't see anything after getting below the forest canopy, but you smell blood. Do you: stalk the smell to ambush potential prey or search for the source to help? If you don't care, you can also leave. Enter 1, 2, or 3. "
+     ambush = "Time to ambush!"
+     aid = "Let's help them!"
+     game_over = "And then you went home because you don't care about any of this. Did anyone else live happily ever after? Who knows! The End"
 
-#print(setup)
-#myrace = input("Welcome to Himoto: Choose Your Own Adventure! Are you a priest, a dragon, or a gryphon? ")
-#while True:
-#    if myrace not in race:
-#        print("That's not what was asked.")
-#        continue
-#    else:
-#        print(f"Okay, a {myrace.lower()}, then.")
-#        break
+class Gryphon:
+     starter = "You're out hunting on your own. It's your first time: food is becoming scarce, so hunting parties have been split up into individuals, even those that aren't quite experienced enough, to cover more ground. You spot a huge stag and dive in for the kill, but you're spotted! The stag turns and gores you in the shoulder before bounding away."
+     part2 = "The antlers pierced muscles in your shoulder, making it difficult to operate your wing effectively. Do you: call for help, look for shelter, or do nothing? Enter 1, 2, or 3. "
+     help = "Help me!"
+     shelter = "Hide me!"
+     game_over = "You died. The End"
+
+class Priest:
+     starter = "You live at Sakuraji. Your home has recently been attacked by dragons and is still recovering. Someone saw a dragon go down in the woods to the southeast. You're tasked with investigating. On horseback, it doesn't take long to reach the general area. There, you dismount to explore on foot so as to go unnoticed."
+     part2 = "The forest is eerily silent, a sign that something is wrong. On a tree up ahead, you see a large splash of blood. It leads deeper into the forest, and in that direction, a sudden burst of wind announces the arrival of another tenshi or the exit of the injured one. Do you: follow the blood to render aid to a dangerous god, approach where the wind came from to see what happens, or leave because the matters of gods are not your problem? Enter 1, 2, or 3. "
+     follow_blood = "What got hurt?"
+     follow_wind = "What fresh hell is this?"
+     game_over = "It's probably safest for you and Sakuraji that way. You make it home safely and resume work rebuilding your home. The End"
+
+
+print(setup)
 
 name = input("What's your name? ")
 print(f"Hello, {name.capitalize()}.")
@@ -29,14 +39,56 @@ def getRace(self=None):
         prompt = "Are you a priest, a dragon, or a gryphon? "
         races = "dragon", "priest", "gryphon"
         while (race := input(prompt).lower()) not in races:
-            print("That's not what was asked.")
+            print("Invalid.")
         return race
 
 myrace = getRace()
-if myrace == "dragon":
-    print(dragon_starter)
-elif myrace == "gryphon":
-    print(gryphon_starter)
-else:
-    print(priest_starter)
+choice1 = 0
 
+def get_choice1():
+    
+    pass
+if myrace == "dragon":
+    player = Dragon()
+    print(Dragon.starter)
+    print(input(Dragon.part2))
+elif myrace == "gryphon":
+    player = Gryphon()
+    print(Gryphon.starter)
+    choice1 = input(Gryphon.part2)
+else:
+    player = Priest()
+    print(Priest.starter)
+    print(input(Gryphon.part2))
+
+
+
+
+
+while player == Dragon():
+    if Dragon.part2 == 1:
+        print(Dragon.ambush)
+    elif Dragon.part2 == 2:
+        print(Dragon.aid)
+    elif Dragon.part2 == 3:
+        print(Dragon.game_over)
+    else:
+        break
+
+while player == Priest():
+    if Priest.part2 == 1:
+        print(Priest.follow_blood)
+    elif Priest.part2 == 2:
+        print(Priest.follow_wind)
+    else:
+        print(Priest.game_over)
+
+while player == Gryphon():
+    if choice1 == 1:
+        print(Gryphon.help)
+    elif choice1 == 2:
+        print(Gryphon.shelter)
+    elif choice1 == 3:
+        print(Gryphon.game_over)
+    else: 
+        break
